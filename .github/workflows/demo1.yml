@@ -2,7 +2,7 @@ name: Event 1
 on:
   pull_request: 
     types:
-      - opened
+      - opened # Run on opened pull request
   workflow_dispatch:
   push:
     branches:
