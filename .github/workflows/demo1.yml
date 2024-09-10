@@ -1,4 +1,4 @@
-name: Event 1
+name: Event-1
 on:
   pull_request: 
     types:
@@ -19,4 +19,4 @@ jobs:
       - name: Build code
         run: npm run build
       - name: Deploy project
-        run: echo: "Deploying..."
+        run: echo "Deploying..."
