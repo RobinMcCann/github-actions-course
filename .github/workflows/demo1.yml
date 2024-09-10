@@ -1,29 +1,33 @@
-name: Event 1
-on:
-  pull_request: 
-    types:
-      - opened # Run on opened pull request
-  workflow_dispatch:
+name: Deploy website
+on: 
   push:
     branches:
       - main
-      - "dev/*" # * means any characters _except_ slashes
-      - "feature/**" # ** means any characters _including_ slashes
-    paths: '.github/workflows/*' # Run if any file changes in this path
-    paths-ignore: 'public/*' # If any file in this path is changed, the workflow will not be run
 jobs:
-  deploy:
+  test:
     runs-on: ubuntu-latest
     steps:
-      - name: Output event data
-        run: echo "${{ toJSON(github.event) }}"
       - name: Get code
         uses: actions/checkout@v4
-      - name: Install dependecies
+      - name: Install dependencies
         run: npm ci
+      - name: Lint code
+        run: npm run lint
       - name: Test code
         run: npm run test
-      - name: Build code
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v4
+      - name: Install dependencies
+        run: npm ci
+      - name: Build website
         run: npm run build
-      - name: Deploy project
-        run: echo: "Deploying..."
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy
+        run: echo "Deploying..."
