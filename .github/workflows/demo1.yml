@@ -4,6 +4,13 @@ on:
     types:
       - opened
   workflow_dispatch:
+  push:
+    branches:
+      - main
+      - "dev/*" # * means any characters _except_ slashes
+      - "feature/**" # ** means any characters _including_ slashes
+    paths: '.github/workflows/*' # Run if any file changes in this path
+    paths-ignore: 'public/*' # If any file in this path is changed, the workflow will not be run
 jobs:
   deploy:
     runs-on: ubuntu-latest
