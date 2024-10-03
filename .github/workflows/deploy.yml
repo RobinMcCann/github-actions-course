@@ -14,8 +14,8 @@ jobs:
     container:
       image: node:16
     env:
-      MONGODB_CONNECTION_PROTOCOL: mongodb+srv
-      MONGODB_CLUSTER_ADDRESS: mongodb # same as service name
+      MONGODB_CONNECTION_PROTOCOL: mongodb
+      MONGODB_CLUSTER_ADDRESS: mongodb # same as service name, otherwise use IP:port, in this example 127.0.0.1:27017. For this one needs top open the port as below
       MONGODB_USERNAME: root # Same as mongodb service container creds
       MONGODB_PASSWORD: example
       PORT: 8080
@@ -23,6 +23,8 @@ jobs:
       # To use this, the job must also run inside a container
       mongodb:
         image: mongo
+        # ports:
+        #  - 27017:27017
         env: 
           MONGO_INITDB_ROOT_USERNAME: root
           MONGO_INITDB_ROOT_PASSWORD: example
